@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using EPlayers_AspNetCore.Interfaces;
 
 namespace EPlayers_AspNetCore.Models
@@ -18,9 +19,19 @@ namespace EPlayers_AspNetCore.Models
              createFolderAndFile(PATH);
         }
 
+           // Criamos o método para preparar a linha do CSV
+           public string Prepare(Equipe e)
+
+           {
+               return $"{e.IdEquipe}{e.Nome};{e.Imgem}"; 
+           }
+          
         public void Create(Equipe e)
         {
-           
+            // Peparamos um arry de string para o método AppendAllLines 
+             string[] linhas = { Prepare (e)};  
+      // Acresentamos a nova linha 
+             File.AppendAllLines( PATH, linhas  );   
         }
 
         public void Delete(int id)
@@ -30,7 +41,27 @@ namespace EPlayers_AspNetCore.Models
 
         public List<Equipe> ReadAll()
         {
-            throw new System.NotImplementedException();
+            List <Equipe> equipes = new List<Equipe>(); 
+      // Lemos todas as linhas do CSV 
+                  string[] linhas = File.ReadAllLines(PATH); 
+        
+                foreach(string item in linhas )
+                {
+                    // 1; VivoKyd;vivo;jpg
+                    // [0] = 1 
+                    // [1] = Vivo Keyd
+                    // [2] = vivo jpg 
+                    string[] linha = item.Split(";");
+
+                    Equipe novaEquipe = new Equipe();
+                    novaEquipe.IdEquipe = int.Parse (linha [0] );
+                    novaEquipe.Nome = linha [1];
+                    novaEquipe.Imgem = linha [2];
+
+                    equipes.Add(novaEquipe);
+                }
+
+            return equipes; 
         }
 
         public void Update(Equipe e)
