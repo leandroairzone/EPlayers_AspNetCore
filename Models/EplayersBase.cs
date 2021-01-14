@@ -54,7 +54,7 @@ namespace EPlayers_AspNetCore.Models
               {
         
                   // StreamWrite escrever dados em um arquivo
-                  using(StreamReader output = new StreamReader(path))
+                  using(StreamWriter output = new StreamWriter(path))
                 
                         {
                             foreach (var item in linhas)

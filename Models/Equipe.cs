@@ -11,6 +11,7 @@ namespace EPlayers_AspNetCore.Models
         public string Nome { get; set; } 
 
         public string Imgem {get; set; }
+        public string Imagem { get; internal set; }
 
         public const string PATH = "Database/Equipe.csv"; 
 
